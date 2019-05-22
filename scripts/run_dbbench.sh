@@ -1,0 +1,64 @@
+#!/bin/bash
+#set -x
+
+NUMTHREAD=1
+#BENCHMARKS="fillseq"
+
+#BENCHMARKS="customedworkloadzip099write,customedworkloadzip080write,\
+#customedworkloaduniformwrite,customedworkloadzip099_4kwrite,\
+#customedworkloadzip080_4kwrite,customedworkloaduniform_4kwrite,\
+#customedworkloadzip099writemid,customedworkloadzip080writemid,\
+#customedworkloaduniformwritemid,customedworkloadzip099_4kwritemid,\
+#customedworkloadzip080_4kwritemid,customedworkloaduniform_4kwritemid,\
+#customedworkloadzip099writelarge,\
+#customedworkloadzip080writelarge,\
+#customedworkloaduniformwritelarge,\
+#customedworkloadzip099_4kwritelarge,\
+#customedworkloadzip080_4kwritelarge,\
+#customedworkloaduniform_4kwritelarge"
+
+#BENCHMARKS="customedworkloadzip099writelarge,\
+#customedworkloadzip080writelarge,\
+#customedworkloaduniformwritelarge,\
+#customedworkloadzip099_4kwritelarge,\
+#customedworkloadzip080_4kwritelarge,\
+#customedworkloaduniform_4kwritelarge"
+
+#BENCHMARKS="customedworkloadzip099write"
+#BENCHMARKS="customedworkloadzip080write"
+#BENCHMARKS="customedworkloaduniformwrite"
+#BENCHMARKS="customedworkloadzip099_4kwrite"
+#BENCHMARKS="customedworkloadzip080_4kwrite"
+#BENCHMARKS="customedworkloaduniform_4kwrite"
+#BENCHMARKS="customedworkloadzip099writemid"
+#BENCHMARKS="customedworkloadzip080writemid"
+#BENCHMARKS="customedworkloaduniformwritemid"
+#BENCHMARKS="customedworkloadzip099_4kwritemid"
+#BENCHMARKS="customedworkloadzip080_4kwritemid"
+#BENCHMARKS="customedworkloaduniform_4kwritemid"
+#BENCHMARKS="customedworkloadzip099writelarge"
+#BENCHMARKS="customedworkloadzip080writelarge"
+#BENCHMARKS="customedworkloaduniformwritelarge"
+#BENCHMARKS="customedworkloadzip099_4kwritelarge"
+#BENCHMARKS="customedworkloadzip080_4kwritelarge"
+#BENCHMARKS="customedworkloaduniform_4kwritelarge"
+
+#BENCHMARKS="fillrandom,readrandom"
+BENCHMARKS="fillrandom"
+
+DEVNAME="/dev/sdb8"
+USEEXISTINGDB=0
+
+#NoveLSM specific parameters
+#NoveLSM uses memtable levels, always set to num_levels 2
+#write_buffer_size DRAM memtable size in MBs
+#write_buffer_size_2 specifies NVM memtable size; set it in few GBs for perfomance;
+OTHERPARAMS="--write_buffer_size=$DRAMBUFFSZ"
+
+#valgrind --verbose --log-file=valgrind --leak-check=full  --show-leak-kinds=all $DBBENCH/db_bench --threads=$NUMTHREAD --benchmarks=$BENCHMARKS $OTHERPARAMS
+$DBBENCH/db_bench --threads=$NUMTHREAD --benchmarks=$BENCHMARKS --use_existing_db=$USEEXISTINGDB --db=$DEVNAME $OTHERPARAMS
+
+#Run all benchmarks
+#$APP_PREFIX $DBBENCH/db_bench --threads=$NUMTHREAD --num=$NUMKEYS --value_size=$VALUSESZ \
+#$OTHERPARAMS --num_read_threads=$NUMREADTHREADS
+
